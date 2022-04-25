@@ -21,8 +21,11 @@ namespace ModElectionSim
                 case "PVI":
                     PVI = enteredvaluecs;
                     break;
-                case "Enthusiasm":
-                    Enthusiasm = enteredvaluecs;
+                case "Enthusiasm1":
+                    Enthusiasm1 = enteredvaluecs;
+                    break;
+                case "Enthusiasm2":
+                    Enthusiasm2 = enteredvaluecs;
                     break;
                 case "Random":
                     Random = enteredvaluecs;
@@ -48,10 +51,12 @@ namespace ModElectionSim
         }
         private static string pvi = "0";
         private static string random = "0";
-        private static string enthusiasm = "0";
+        private static string enthusiasm1 = "1";
+        private static string enthusiasm2 = "1";
         public static string PVI { get { return pvi; } set { pvi = EnteredValueCs; } }
         public static string Random { get { return random; } set { random = EnteredValueCs; } }
-        public static string Enthusiasm { get { return enthusiasm; } set { enthusiasm = EnteredValueCs; } }
+        public static string Enthusiasm1 { get { return enthusiasm1; } set { enthusiasm1 = EnteredValueCs; } }
+        public static string Enthusiasm2 { get { return enthusiasm2; } set { enthusiasm2 = EnteredValueCs;} }
         private static string runtime = "0";
         public static string RUNTIME { get { return runtime; } set { runtime = EnteredValueCs; } }
     }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ModElectionSim"
         mc:Ignorable="d"
         Title="Election Simulator" Height="450" Width="800">
-    <Grid>
+    <Grid Background="#FFBDBABA">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="2*"/>
@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <Label x:Name="Can1Name" Content="Trump" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" FontSize="36" FontWeight="Bold" Margin="40,0,0,0"/>
@@ -35,15 +35,16 @@
         <Button x:Name="EditCAN2Name" Grid.Column="2" Content="Edit Candidate 2's Name" HorizontalAlignment="Left" Margin="10,49,0,0" Grid.Row="1" VerticalAlignment="Top" Click="EditCAN2Name_Click"/>
         <Button x:Name="EditPVI" Grid.Column="2" Content="Edit PVI" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="2" VerticalAlignment="Top" Click="EditPVI_Click"/>
         <Button x:Name="Edit_Random" Grid.Column="2" Content="Edit Random" HorizontalAlignment="Left" Margin="10,48,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Edit_Random_Click"/>
-        <Button x:Name="Edit_Enthusiasm" Grid.Column="2" Content="Edit Enthusiasm" HorizontalAlignment="Left" Margin="134,10,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.01" Click="Edit_Enthusiasm_Click"/>
+        <Button x:Name="Edit_Enthusiasm1" Grid.Column="2" Content="Edit Enthusiasm C1" HorizontalAlignment="Left" Margin="124,10,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.01" Click="Edit_Enthusiasm1_Click"/>
         <TextBox x:Name="Runtime_Enter" Grid.Column="2" HorizontalAlignment="Left" Margin="14,62,0,0" Grid.Row="3" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="ConfirmRuntime" Grid.Column="2" Content="(times) SET" HorizontalAlignment="Left" Margin="159,62,0,0" Grid.Row="3" VerticalAlignment="Top" Click="ConfirmRuntime_Click"/>
-        <Label x:Name="CurrentlySetting" Grid.Column="2" Content="Currently Setting:" HorizontalAlignment="Left" FontSize ="16" Margin="10,10,0,0" Grid.Row="4" VerticalAlignment="Top"/>
-        <TextBox x:Name="WildCardEnterBox" Grid.Column="2" HorizontalAlignment="Left" Margin="14,40,0,0" Grid.Row="4" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.602,0.547"/>
-        <Button x:Name="WildCardSet" Grid.Column="2" Content="Set" HorizontalAlignment="Left" Margin="159,40,0,0" Grid.Row="4" VerticalAlignment="Top" Click="WildCardSet_Click"/>
-        <Label x:Name="SimulationCondition" Content="Please set up initial conditions." HorizontalAlignment="Left"  Margin="10,60,0,0" Grid.Row="4" FontWeight="Normal" Background="#00000000" Grid.Column="2"/>
+        <Label x:Name="CurrentlySetting" Grid.Column="2" Content="Currently Setting:" HorizontalAlignment="Left" Margin="10,87,0,0" Grid.Row="3" VerticalAlignment="Top" RenderTransformOrigin="0.206,0.215" Grid.RowSpan="2"/>
+        <TextBox x:Name="WildCardEnterBox" Grid.Column="2" HorizontalAlignment="Left" Margin="14,26,0,0" Grid.Row="4" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.602,0.547"/>
+        <Button x:Name="WildCardSet" Grid.Column="2" Content="Set" HorizontalAlignment="Left" Margin="159,26,0,0" Grid.Row="4" VerticalAlignment="Top" Click="WildCardSet_Click" Width="65"/>
+        <Label x:Name="SimulationCondition" Content="Please set up initial conditions." HorizontalAlignment="Left"  Margin="10,46,0,0" Grid.Row="4" FontWeight="Normal" Background="#00000000" Grid.Column="2"/>
         <Label x:Name="SimulationResult" Content="(Result)" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Top" Height="109" Width="505" FontWeight="Bold" FontSize="16" Margin="0,10,0,0" Background="#FFE0D9D9"/>
         <Button x:Name="StartSimulation" Grid.Column="2" Content="Start Simulation!" HorizontalAlignment="Left" Margin="14,10,0,0" Grid.Row="3" VerticalAlignment="Top" FontWeight="Bold" Height="48" Width="213" FontSize="24" Click="StartSimulation_Click" RenderTransformOrigin="0.508,0.06" IsEnabled="False"/>
+        <Button x:Name="Edit_Enthusiasm2" Grid.Column="2" Content="Edit Enthusiasm C2" HorizontalAlignment="Left" Margin="124,48,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.01" Click="Edit_Enthusiasm2_Click"/>
 
     </Grid>
 </Window>

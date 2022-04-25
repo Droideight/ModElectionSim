@@ -46,10 +46,16 @@ namespace ModElectionSim
         }
 
 
-        private void Edit_Enthusiasm_Click(object sender, RoutedEventArgs e)
+        private void Edit_Enthusiasm1_Click(object sender, RoutedEventArgs e)
         {
-            setting = "Enthusiasm";
-            CurrentlySetting.Content = "Setting Enthusiasm";
+            setting = "Enthusiasm1";
+            CurrentlySetting.Content = "Setting Enthusiasm C1";
+        }
+
+        private void Edit_Enthusiasm2_Click(object sender, RoutedEventArgs e)
+        {
+            setting = "Enthusiasm2";
+            CurrentlySetting.Content = "Setting Enthusiasm C2";
         }
 
 
@@ -69,7 +75,7 @@ namespace ModElectionSim
         }
         private void TitleChange()
         {
-            SimulationCondition.Content = $"PVI: {SetupManager.PVI}; Enthusiasm: {SetupManager.Enthusiasm};\nRandomness: {SetupManager.Random};\nRuntime: {SetupManager.RUNTIME} time(s)";
+            SimulationCondition.Content = $"PVI: {SetupManager.PVI};\nEnthusiasm of C1: {SetupManager.Enthusiasm1};\nEnthusiasm of C2: {SetupManager.Enthusiasm2};\nRandomness: {SetupManager.Random}; Runtime: {SetupManager.RUNTIME} time(s)";
         }
         private void WildCardSet_Click(object sender, RoutedEventArgs e)
         {
@@ -90,9 +96,13 @@ namespace ModElectionSim
                     SetupManager.enteredvaluecs = EnteredValueCs.ToString();
                     SetupManager.ChangeVariable("PVI");
                     break;
-                case "Enthusiasm":
+                case "Enthusiasm1":
                     SetupManager.enteredvaluecs = EnteredValueCs.ToString();
-                    SetupManager.ChangeVariable("Enthusiasm");
+                    SetupManager.ChangeVariable("Enthusiasm1");
+                    break;
+                case "Enthusiasm2":
+                    SetupManager.enteredvaluecs = EnteredValueCs.ToString();
+                    SetupManager.ChangeVariable("Enthusiasm2");
                     break;
                 case "Random":
                     SetupManager.enteredvaluecs = EnteredValueCs.ToString();
@@ -119,29 +129,41 @@ namespace ModElectionSim
                     double u1 = 1.0 - rnd.NextDouble();
                     double u2 = 1.0 - rnd.NextDouble();
                     double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
-                    double randNormal = (50.000+ Double.Parse(SetupManager.PVI) / 2) + (Double.Parse(SetupManager.Random)) * randStdNormal; 
-                    if (Double.Parse(SetupManager.Random) != 0)  { 
-                        resultarray[i] = (Math.Round(randNormal,2));
+                    double randNormal = ((50.000 + Double.Parse(SetupManager.PVI) / 2)* Math.Pow(Double.Parse(SetupManager.Enthusiasm1), 2) / Double.Parse(SetupManager.Enthusiasm1) * Double.Parse(SetupManager.Enthusiasm2)) + (Double.Parse(SetupManager.Random) * 0.5  * randStdNormal);
+                    if (Double.Parse(SetupManager.Random) != 0.0)
+                    {
+                        if ((Math.Round(randNormal, 2) > 0.0)) { resultarray[i] = (Math.Round(randNormal, 2)); }
+                        else resultarray[i] = 0.0;
                     }
-                    if (Double.Parse(SetupManager.Random) == 0) { resultarray[i] = (Math.Round((Double.Parse(SetupManager.PVI) / 2 + 50), 2, MidpointRounding.ToEven)); ; }
-                         }
-                double m = Math.Round(resultarray.Max(),2);
-                double l = Math.Round(resultarray.Min(),2);
-                double avg = Math.Round(resultarray.Average(), 2);
-                double sumOfSquaresOfDifferences = resultarray.Select(val => (val - avg) * (val - avg)).Sum();
-                double sd = Math.Sqrt((double)sumOfSquaresOfDifferences / resultarray.Length);
-                double lsd = Math.Round((double)avg + sd,2);
-                double hsd = Math.Round((double)avg - sd,2);
-                double original = resultarray.Length;
-                Array.Sort(resultarray);
-                resultarray = Array.FindAll(resultarray, i => i >50).ToArray();
-                double newlength = resultarray.Length;
-                win = Math.Round(newlength/original*100,2);
+                    if (Double.Parse(SetupManager.Random) == 0.0)
+                    {
+                        if ((Math.Round((Double.Parse(SetupManager.PVI) / 2.0 + 50.0), 2, MidpointRounding.ToEven)) > 0.0)
+                        {
+                            resultarray[i] = (Math.Round((Double.Parse(SetupManager.PVI) / 2.0 + 50.0), 2, MidpointRounding.ToEven));
+                        }
+                        else resultarray[i] = 0.0;
+                    }
+                }
+                    double m = Math.Round(resultarray.Max(), 2);
+                    double l = Math.Round(resultarray.Min(), 2);
+                    double avg = Math.Round(resultarray.Average(), 2);
+                    double sumOfSquaresOfDifferences = resultarray.Select(val => (val - avg) * (val - avg)).Sum();
+                    double sd = Math.Sqrt((double)sumOfSquaresOfDifferences / resultarray.Length);
+                    double lsd = Math.Round((double)avg + sd, 2);
+                    double hsd = Math.Round((double)avg - sd, 2);
+                    if (lsd > 100) lsd = 100;
+                    if (hsd < 0) hsd = 0;
+                    double original = resultarray.Length;
+                    Array.Sort(resultarray);
+                    resultarray = Array.FindAll(resultarray, j => j > 50).ToArray();
+                    double newlength = resultarray.Length;
+                    win = Math.Round(newlength / original * 100, 2);
 
-                SimulationResult.Content = $"{Can1Name.Content}: {l}~{m}% (Most Likely: {hsd}~{lsd})\n{Can2Name.Content}: {100-m}~{100-l}% (Most Likely: {100-lsd}~{100-hsd})\n\nAverage: {Can1Name.Content} {avg}%, {Can2Name.Content} {100 - avg}%\n{Can1Name.Content} wins in {win}% of tests;";
-                Array.Clear(resultarray, 0, resultarray.Length);
-                StartSimulation.IsEnabled = true;
+                    SimulationResult.Content = $"{Can1Name.Content}: {l}~{m}% (Most Likely: {hsd}~{lsd})\n{Can2Name.Content}: {100 - m}~{100 - l}% (Most Likely: {100 - lsd}~{100 - hsd})\n\nAverage: {Can1Name.Content} {avg}%, {Can2Name.Content} {100 - avg}%\n{Can1Name.Content} wins in {win}% of tests;";
+                    Array.Clear(resultarray, 0, resultarray.Length);
+                    StartSimulation.IsEnabled = true;
+                }
             }
-        }
-    }
-}
+
+            }
+    } 
