@@ -36,8 +36,8 @@ namespace ModElectionSim
             return;
         }
         private static string EnteredValueCs;
-        private static string Can1Name = "Macron";
-        private static string Can2Name = "Le Pen";
+        private static string Can1Name = "Trump";
+        private static string Can2Name = "Biden";
         public static string enteredvaluecs { get { return EnteredValueCs; } set { EnteredValueCs = value; } }
         public static string Candidate1Name {
             get { return Can1Name; } set { Can1Name = EnteredValueCs; } 
