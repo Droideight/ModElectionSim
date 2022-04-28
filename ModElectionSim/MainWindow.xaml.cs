@@ -129,7 +129,7 @@ namespace ModElectionSim
                     double u1 = 1.0 - rnd.NextDouble();
                     double u2 = 1.0 - rnd.NextDouble();
                     double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
-                    double randNormal = ((50.000 + Double.Parse(SetupManager.PVI) / 2)* Math.Pow(Double.Parse(SetupManager.Enthusiasm1), 2) / Double.Parse(SetupManager.Enthusiasm1) * Double.Parse(SetupManager.Enthusiasm2)) + (Double.Parse(SetupManager.Random) * 0.5  * randStdNormal);
+                    double randNormal = ((50.000 + Double.Parse(SetupManager.PVI) / 2)* Math.Pow(Double.Parse(SetupManager.Enthusiasm1), 2) / (Double.Parse(SetupManager.Enthusiasm1) * Double.Parse(SetupManager.Enthusiasm2))) + (Double.Parse(SetupManager.Random) * 0.5  * randStdNormal);
                     if (Double.Parse(SetupManager.Random) != 0.0)
                     {
                         if ((Math.Round(randNormal, 2) > 0.0)) { resultarray[i] = (Math.Round(randNormal, 2)); }
@@ -157,7 +157,7 @@ namespace ModElectionSim
                     Array.Sort(resultarray);
                     resultarray = Array.FindAll(resultarray, j => j > 50).ToArray();
                     double newlength = resultarray.Length;
-                    win = Math.Round(newlength / original * 100, 2);
+                    win = Math.Round(newlength / original * 100, 4);
 
                     SimulationResult.Content = $"{Can1Name.Content}: {l}~{m}% (Most Likely: {hsd}~{lsd})\n{Can2Name.Content}: {100 - m}~{100 - l}% (Most Likely: {100 - lsd}~{100 - hsd})\n\nAverage: {Can1Name.Content} {avg}%, {Can2Name.Content} {100 - avg}%\n{Can1Name.Content} wins in {win}% of tests;";
                     Array.Clear(resultarray, 0, resultarray.Length);
