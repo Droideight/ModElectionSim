@@ -8,6 +8,8 @@ namespace ModElectionSim
 {
     internal class SetupManager
     {
+              
+    
         public static void ChangeVariable(string type)
         {
             switch (type)
@@ -31,7 +33,13 @@ namespace ModElectionSim
                     Random = enteredvaluecs;
                     break;
                 case "Runtime":
-                    runtime = enteredvaluecs;
+                    RUNTIME = enteredvaluecs;
+                    break;
+                case "Population":
+                    Population = enteredvaluecs;
+                    break;
+                case "Speed":
+                    Speed = enteredvaluecs;
                     break;
                 default:
                     break;
@@ -53,10 +61,14 @@ namespace ModElectionSim
         private static string random = "0";
         private static string enthusiasm1 = "1";
         private static string enthusiasm2 = "1";
+        private static string population = "1000000";
+        private static string speed = "2000";
         public static string PVI { get { return pvi; } set { pvi = EnteredValueCs; } }
         public static string Random { get { return random; } set { random = EnteredValueCs; } }
         public static string Enthusiasm1 { get { return enthusiasm1; } set { enthusiasm1 = EnteredValueCs; } }
         public static string Enthusiasm2 { get { return enthusiasm2; } set { enthusiasm2 = EnteredValueCs;} }
+        public static string Population { get { return population; } set { population = EnteredValueCs; } }
+        public static string Speed { get { return speed; } set { speed = EnteredValueCs; } }
         private static string runtime = "0";
         public static string RUNTIME { get { return runtime; } set { runtime = EnteredValueCs; } }
     }
