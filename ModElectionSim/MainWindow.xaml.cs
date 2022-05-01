@@ -139,7 +139,52 @@ namespace ModElectionSim
             TitleChange();
             StartSimulation.IsEnabled = true;
         }
+        public void Liveupdating(double lower1, double upper1, double lower2, double upper2, double votea1, double votea2)
+        {
+            Random LU = new Random();
+            thisbatcha = 0.00001 * (double)LU.Next(100000 * (int)lower1, 100000 * (int)upper1);
+            thisbatchb = 0.00001 * (double)LU.Next(100000 * (int)lower2, 100000 * (int)upper2);
+            inpcta += thisbatcha;
+            inpctb += thisbatchb;
+            thisbatchavote = votea1 * thisbatcha;
+            thisbatchbvote = votea2 * thisbatchb;
+            inavote += thisbatchavote;
+            inbvote += thisbatchbvote;
+            inapct = inavote / (inavote + inbvote);
+            inbpct = inbvote / (inbvote + inavote);
+            inpct = (inavote + inbvote) / (votea1 + votea2);
+            double inavoteu = inavote;
+            double inbvoteu = inbvote;
+            double inapctu = inapct;
+            double inbpctu = inbpct;
+            double inpctu = inpct;
 
+            Can1VoteCount.Content = String.Format("{0:n0}", Math.Round(inavoteu, 0));
+            Can2VoteCount.Content = String.Format("{0:n0}", Math.Round(inbvoteu, 0));
+            Can2VotePCT.Content = $"{100 * Math.Round(inbpctu, 4)}%";
+            Can1VotePCT.Content = $"{100 * Math.Round(inapctu, 4)}%";
+            TurnoutCount.Content = $"{Math.Round(inpctu, 2)}%";
+        }
+
+        public async void Liveupdatemanager(double vote1, double vote2)
+        {
+            do
+            {
+                await Task.Delay(int.Parse(SetupManager.Speed));
+                if (inpcta >= 98.00 && inpctb < 98.00) { Liveupdating(0.00, 0.10, 0.20, 1.00, vote1, vote2); }
+                else if (inpctb >= 98.00 && inpcta < 98.00) { Liveupdating(0.20, 1.00, 0.00, 0.10, vote1, vote2); }
+                else if (inpcta >= 98.00 && inpctb >= 98.00) { Liveupdating((100 - inpcta), (100 - inpcta), (100 - inpctb), (100 - inpctb), vote1, vote2); }
+                else if ((inpcta - inpctb) > 8.00) { Liveupdating(0.10, 0.50, 0.20, 1.00, vote1, vote2); }
+                else if ((inpctb - inpcta) > 8.00) { Liveupdating(0.20, 1.00, 0.10, 0.50, vote1, vote2); }
+                else { Liveupdating(0.20, 1.00, 0.20, 1.00, vote1, vote2); }
+            } while (inpcta < 100.0 || inpctb < 100.0);
+        }
+
+        private void Speed_Set_Click(object sender, RoutedEventArgs e)
+        {
+            setting = "Speed";
+            CurrentlySetting.Content = "Setting Batch Speed (Recommend: 2s):";
+        }
         private void StartSimulation_Click(object sender, RoutedEventArgs e)
         {
             if (SetupManager.RUNTIME == "0")
@@ -187,9 +232,10 @@ namespace ModElectionSim
                     else actualpctc1 = 0.0;
                     double actualvotes1 = (0.006 * Double.Parse(SetupManager.Enthusiasm1)) * actualpctc1 * Double.Parse(SetupManager.Population);
                     double actualvotes2 = (0.006 * Double.Parse(SetupManager.Enthusiasm2)) * (1 - actualpctc1) * Double.Parse(SetupManager.Population);
-                    Liveupdatemanager(actualvotes1,actualvotes2);
-                };
-                if (SetupManager.RUNTIME != "0")
+                    Liveupdatemanager(actualvotes1, actualvotes2);
+                }
+            }
+            if (SetupManager.RUNTIME != "0")
                 {
                     StartSimulation.IsEnabled = false;
                     double win;
@@ -245,51 +291,7 @@ namespace ModElectionSim
                 }
             }
         }
-        public void Liveupdating(double lower1, double upper1, double lower2, double upper2, double votea1, double votea2)
-        {
-            Random LU = new Random();
-            thisbatcha = 0.00001 * (double)LU.Next(100000 * (int)lower1, 100000 * (int)upper1);
-            thisbatchb = 0.00001 * (double)LU.Next(100000 * (int)lower2, 100000 * (int)upper2);
-            inpcta += thisbatcha;
-            inpctb += thisbatchb;
-            thisbatchavote = votea1 * thisbatcha;
-            thisbatchbvote = votea2 * thisbatchb;
-            inavote += thisbatchavote;
-            inbvote += thisbatchbvote;
-            inapct = inavote / (inavote + inbvote);
-            inbpct = inbvote / (inbvote + inavote);
-            inpct = (inavote + inbvote) / (votea1 + votea2);
-            double inavoteu = inavote;
-            double inbvoteu = inbvote;
-            double inapctu = inapct;
-            double inbpctu = inbpct;
-            double inpctu = inpct;
-
-            Can1VoteCount.Content = String.Format("{0:n0}", Math.Round(inavoteu, 0)); 
-            Can2VoteCount.Content = String.Format("{0:n0}", Math.Round(inbvoteu, 0));
-            Can2VotePCT.Content = $"{100* Math.Round(inbpctu, 4)}%";
-            Can1VotePCT.Content = $"{100* Math.Round(inapctu, 4)}%";
-            TurnoutCount.Content = $"{Math.Round(inpctu, 2)}%";
-        }
         
-        public async void Liveupdatemanager(double vote1, double vote2)
-        {
-            do
-            {
-                await Task.Delay(int.Parse(SetupManager.Speed));
-                if (inpcta >= 98.00 && inpctb < 98.00) { Liveupdating(0.00, 0.10, 0.20, 1.00, vote1, vote2); }
-                else if (inpctb >= 98.00 && inpcta < 98.00) { Liveupdating(0.20, 1.00, 0.00, 0.10, vote1, vote2); }
-                else if (inpcta >= 98.00 && inpctb >= 98.00) { Liveupdating((100 - inpcta), (100 - inpcta), (100 - inpctb), (100 - inpctb), vote1, vote2); }
-                else if ((inpcta - inpctb) > 8.00) { Liveupdating(0.10, 0.50, 0.20, 1.00, vote1, vote2); }
-                else if ((inpctb - inpcta) > 8.00) { Liveupdating(0.20, 1.00, 0.10, 0.50, vote1, vote2); }
-                else { Liveupdating(0.20, 1.00, 0.20, 1.00, vote1, vote2); }
-            } while (inpcta < 100.0 || inpctb < 100.0);
-        }
-
-        private void Speed_Set_Click(object sender, RoutedEventArgs e)
-        {
-            setting = "Speed";
-            CurrentlySetting.Content = "Setting Batch Speed (Recommend: 2s):";
-        }
     }
-}
+
+
